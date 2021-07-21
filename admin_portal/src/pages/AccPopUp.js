@@ -1,18 +1,23 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import FormControl from "@material-ui/core/FormControl";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import Switch from "@material-ui/core/Switch";
-import TextField from "@material-ui/core/TextField";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  DialogContentText,
+} from "@material-ui/core";
+import {
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Select,
+  Switch,
+  TextField,
+} from "@material-ui/core";
+import AccountDetails from "./AccountDetails";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -30,7 +35,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MaxWidthDialog() {
+export default function AccPopUp({ AccInfo }) {
+  // console.log(id);
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   //   const [fullWidth, setFullWidth] = React.useState(true);
@@ -57,52 +63,14 @@ export default function MaxWidthDialog() {
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         TEST
       </Button>
-      <Dialog
-        fullWidth={20}
-        maxWidth={20}
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="max-width-dialog-title"
-      >
-        <DialogTitle id="max-width-dialog-title">Optional sizes</DialogTitle>
+      <Dialog fullWidth={30} maxWidth={30} open={open} onClose={handleClose}>
+        <DialogTitle id="account-details-dialog-title">
+          Account Details
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            You can set my maximum width and whether to adapt or not.
-          </DialogContentText>
+          {/* <DialogContentText>Account Details</DialogContentText> */}
           <form className={classes.form} noValidate>
-            <TextField id="standard-basic" label="Standard" />
-            <TextField id="filled-basic" label="Filled" variant="filled" />
-            <TextField
-              id="outlined-basic"
-              label="Outlined"
-              variant="outlined"
-            />
-            <FormControl className={classes.formControl}>
-              {/* <InputLabel htmlFor="max-width">maxWidth</InputLabel>
-              <Select
-                autoFocus
-                value={maxWidth}
-                onChange={handleMaxWidthChange}
-                inputProps={{
-                  name: "max-width",
-                  id: "max-width",
-                }}
-              >
-                <MenuItem value={false}>false</MenuItem>
-                <MenuItem value="xs">xs</MenuItem>
-                <MenuItem value="sm">sm</MenuItem>
-                <MenuItem value="md">md</MenuItem>
-                <MenuItem value="lg">lg</MenuItem>
-                <MenuItem value="xl">xl</MenuItem>
-              </Select> */}
-            </FormControl>
-            {/* <FormControlLabel
-              className={classes.formControlLabel}
-              control={
-                <Switch checked={fullWidth} onChange={handleFullWidthChange} />
-              }
-              label="Full width"
-            /> */}
+            <AccountDetails AccInfo={AccInfo} />
           </form>
         </DialogContent>
         <DialogActions>

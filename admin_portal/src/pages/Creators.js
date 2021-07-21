@@ -55,5 +55,5 @@ export const Creators = () => {
     },
   ];
 
-  return <BasicTable columns={columns} data={data} />;
+  return <BasicTable columns={columns} data={data} raw={creators} />;
 };

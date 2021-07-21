@@ -1,5 +1,5 @@
 import React from "react";
-import { useMemo, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Layout } from "antd";
 import { BasicTable } from "../components/Table";
@@ -31,24 +31,11 @@ const Styles = styled.div`
     }
   }
 `;
-const btn = () => {
-  return (
-    <Button
-      variant="contained"
-      color="primary"
-      disableElevation
-      component={Link}
-      to="/about"
-    >
-      test
-    </Button>
-  );
-};
 
 export const Brands = () => {
   const [brands, setBrands] = useState([]);
   const [data, setData] = useState([]);
-
+  const [info, setInfo] = useState([]);
   // useEffect(() => {
   //   (async () => {
   //     const result = await axios(
@@ -66,17 +53,54 @@ export const Brands = () => {
         console.log(brands);
       })
       .then(() => {
-        console.log(brands);
-        const data = brands.map(({ id, name, email, legal, phone, rdate }) => ({
-          id: id,
-          name: name,
-          email: email,
-          legal: legal,
-          phone: phone,
-          rdate: rdate,
-        }));
+        const info = brands.map(
+          ({
+            id,
+            name,
+            lastname,
+            country,
+            email,
+            phone,
+            legal,
+            rdate,
+            isActive,
+            isBlackListed,
+            isPremium,
+            premiumStart,
+            premiumEnd,
+          }) => ({
+            id: id,
+            name: name,
+            lastname: lastname,
+            country: country,
+            email: email,
+            legal: legal,
+            phone: phone,
+            isActive: isActive,
+            isBlackListed: isBlackListed,
+            rdate: rdate,
+            premium: isPremium,
+            premiumStart: premiumStart,
+            premiumEnd,
+            premiumEnd,
+          })
+        );
+
+        const data = brands.map(
+          ({ id, name, email, legal, isPremium, phone, rdate }) => ({
+            id: id,
+            name: name,
+            email: email,
+            legal: legal,
+            premium: isPremium,
+            phone: phone,
+            rdate: rdate,
+          })
+        );
         console.log(data);
+        setInfo(info);
         setData(data);
+        console.log(info);
         console.log(data);
       });
   }, [brands.length]);
@@ -99,18 +123,22 @@ export const Brands = () => {
       accessor: "legal",
     },
     {
+      Header: "Premium",
+      accessor: "premium",
+    },
+    {
       Header: "Phone",
       accessor: "phone",
     },
     {
-      Header: "Resgister date",
+      Header: "Register date",
       accessor: "rdate",
     },
   ];
 
   return (
     // <Styles>
-    <BasicTable columns={columns} data={data} />
+    <BasicTable columns={columns} data={data} raw={info} />
     // </Styles>
   );
 };
