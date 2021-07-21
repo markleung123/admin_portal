@@ -1,0 +1,38 @@
+$clr--pri: hsl(198, 100%, 90%);
+$clr--sec: hsl(198, 100%, 30%);
+
+.navbar {
+  background: $clr--pri;
+  height: 85px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.2rem calc((100vw - 1000px) / 2);
+  z-index: 12;
+  /* Third Nav */
+  /* justify-content: flex-start; */
+}
+
+.navbar__link {
+  color: hsl(195, 86%, 22%);
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0 1rem;
+  height: 100%;
+  cursor: pointer;
+  &.active {
+    color: #25a9e0;
+  }
+}
+
+.content {
+  // position: "fixed";
+  display: flex;
+  top: "10px";
+  left: "10px";
+  width: "50%";
+  height: "80px";
+  padding: 0 1rem;
+  background: hsl(0, 21%, 93%);
+  z-index: 1000;
+}
