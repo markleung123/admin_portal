@@ -81,8 +81,7 @@ export const Brands = () => {
             rdate: rdate,
             premium: isPremium,
             premiumStart: premiumStart,
-            premiumEnd,
-            premiumEnd,
+            premiumEnd: premiumEnd,
           })
         );
 

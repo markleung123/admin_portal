@@ -63,7 +63,12 @@ export default function AccPopUp({ AccInfo }) {
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         TEST
       </Button>
-      <Dialog fullWidth={30} maxWidth={30} open={open} onClose={handleClose}>
+      <Dialog
+        fullWidth={true}
+        maxWidth={"md"}
+        open={open}
+        onClose={handleClose}
+      >
         <DialogTitle id="account-details-dialog-title">
           Account Details
         </DialogTitle>

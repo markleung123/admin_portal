@@ -21,6 +21,8 @@ import {
 
 import { useState } from "react";
 import AccPopUp from "../pages/AccPopUp";
+import MaterialTable from "material-table";
+import SearchBar from "material-ui-search-bar";
 import { Link } from "react-router-dom";
 import AccountDetails from "../pages/AccountDetails";
 
@@ -135,6 +137,27 @@ export const BasicTable = ({ columns, data, raw }) => {
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
+  const [searched, setSearched] = useState("");
+  const [searchedRow, setSearchedRow] = useState([]);
+
+  const requestSearch = (searchedVal) => {
+    console.log(rows);
+    const filteredRows = rows.filter((row) => {
+      return Object.values(row.values)
+        .toString()
+        .toLowerCase()
+        .includes(searchedVal.toLowerCase());
+    });
+    // console.log(filteredRows);
+    setSearchedRow(filteredRows);
+    // console.log(searchedRow);
+  };
+  console.log(searchedRow);
+  const cancelSearch = () => {
+    setSearched("");
+    requestSearch(searched);
+    // console.log(searched);
+  };
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -143,11 +166,17 @@ export const BasicTable = ({ columns, data, raw }) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  console.log(raw);
+  // console.log(raw);
   // console.log(raw.find((info) => info.id === 25));
   // Render Data Table UI
   return (
     <TableContainer component={Paper}>
+      <SearchBar
+        value={searched}
+        onChange={(searchVal) => requestSearch(searchVal)}
+        onCancelSearch={() => cancelSearch()}
+      />
+
       <Table
         className={classes.table}
         aria-label="simple table"
@@ -166,9 +195,16 @@ export const BasicTable = ({ columns, data, raw }) => {
           ))}
         </TableHead>
         <TableBody {...getTableBodyProps()}>
-          {(rowsPerPage > 0
-            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : rows
+          {(searchedRow.length === 0
+            ? rowsPerPage > 0
+              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : rows
+            : rowsPerPage > 0
+            ? searchedRow.slice(
+                page * rowsPerPage,
+                page * rowsPerPage + rowsPerPage
+              )
+            : searchedRow
           ).map((row, i) => {
             prepareRow(row);
             // console.log(row.values);
@@ -177,7 +213,10 @@ export const BasicTable = ({ columns, data, raw }) => {
                 {row.cells.map((cell) => {
                   return (
                     <>
-                      <StyledTableCell {...cell.getCellProps()}>
+                      <StyledTableCell
+                        key={row.values.id}
+                        {...cell.getCellProps()}
+                      >
                         {cell.render("Cell")}
                       </StyledTableCell>
                       {/* <MaxWidthDialog id={row} /> */}
@@ -198,7 +237,9 @@ export const BasicTable = ({ columns, data, raw }) => {
             <TablePagination
               rowsPerPageOptions={[5, 10, 20, 25, { label: "All", value: -1 }]}
               colSpan={3}
-              count={rows.length}
+              count={
+                searchedRow.length === 0 ? rows.length : searchedRow.length
+              }
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{

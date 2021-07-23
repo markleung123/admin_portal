@@ -7,6 +7,7 @@ import { BasicTable } from "../components/Table";
 export const Creators = () => {
   const [creators, setCreator] = useState([]);
   const [data, setData] = useState([]);
+  const [info, setInfo] = useState([]);
 
   // useEffect(() => {
   //   (async () => {
@@ -25,13 +26,26 @@ export const Creators = () => {
         console.log(response.data);
       })
       .then(() => {
-        const data = creators.map(({ id, name, email, phone }) => ({
+        const info = creators.map(
+          ({ id, name, email, phone, country, rdate }) => ({
+            id: id,
+            name: name,
+            email: email,
+            phone: phone,
+            rdate: rdate,
+            country: country,
+          })
+        );
+
+        const data = creators.map(({ id, name, email, phone, rdate }) => ({
           id: id,
           name: name,
           email: email,
           phone: phone,
+          rdate: rdate,
         }));
         setData(data);
+        setInfo(info);
         console.log(data);
       });
   }, [creators.length]);
@@ -53,7 +67,11 @@ export const Creators = () => {
       Header: "Phone",
       accessor: "phone",
     },
+    {
+      Header: "Register date",
+      accessor: "rdate",
+    },
   ];
 
-  return <BasicTable columns={columns} data={data} raw={creators} />;
+  return <BasicTable columns={columns} data={data} raw={info} />;
 };
